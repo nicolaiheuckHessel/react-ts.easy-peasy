@@ -1,21 +1,21 @@
+import { Computed } from "easy-peasy";
 import React, { Component } from "react";
-import Todos from "./todos";
-import Notification from "./notification";
+import { typedHooks } from "../store";
+import { TaskModelType } from "../StoreModel";
+import FinishedTasks from "./FinishedTasks/FinishedTasks.component";
+import NewTaskForm from "./NewTaskForm";
+import { Task } from "./Task/Task.types";
+import UnFinishedTasks from "./UnFinishedTasks/UnFinishedTasks.component";
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <h1>Easy Peasy + Typescript</h1>
-        <p>
-          This is a demonstration of how to utilise the Typescript integration
-          of <a href="https://github.com/ctrlplusb/easy-peasy">Easy Peasy</a>.
-        </p>
-        <Todos />
-        <Notification />
-      </div>
-    );
-  }
+const app = () => {
+  
+  return (
+    <>
+      <NewTaskForm />
+      <UnFinishedTasks />
+      <FinishedTasks />
+    </>
+  )
 }
 
-export default App;
+export default app
