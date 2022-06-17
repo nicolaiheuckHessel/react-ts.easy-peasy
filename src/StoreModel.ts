@@ -1,11 +1,16 @@
-import { Action, action, Computed, computed } from "easy-peasy"
+import { Action, action, Computed, computed, Thunk, thunk } from "easy-peasy"
 import { Task } from "./components/Task/Task.types"
 
 export interface TaskModelType {
     tasks: Task[],
-    addTask: Action<TaskModelType, any>,
+    
     finishedTasks: Computed<TaskModelType, any, void, {}>,
     unFinishedTasks: Computed<TaskModelType, any, void, {}>,
+
+    addTask: Action<TaskModelType, any>,
+    deleteTask: Action<TaskModelType, any>,
+    setTasks: Action<TaskModelType, Task[]>,
+    reload: Thunk<TaskModelType>,
 }
 export const taskModel: TaskModelType = {
     tasks: [
@@ -33,7 +38,35 @@ export const taskModel: TaskModelType = {
             done: payload.done
         };
         state.tasks.push(newTask);
+    }),
+    deleteTask: action((state, payload) => {
+        const listWithoutTask = state.tasks.filter(task => task.id !== payload.id);
+        state.tasks = listWithoutTask;
+    }),
+    setTasks: action((state, payload) => {
+        state.tasks = payload;
+    }),
+    reload: thunk(async (actions) => {
+        console.log("Reloading...");
+        
+        const responseTodos: ResponseTodoType[] = await (await fetch("https://jsonplaceholder.typicode.com/todos")).json();
+        const newTasks: Task[] = [];
+        for (const responseTodo of responseTodos) {
+            const newTask: Task = {
+                id: responseTodo.id,
+                title: responseTodo.title,
+                done: responseTodo.completed,
+            }
+            newTasks.push(newTask)
+        }
+        actions.setTasks(newTasks);
     })
+}
+interface ResponseTodoType {
+    id: Number,
+    title: String,
+    completed: boolean,
+    userId: Number,
 }
 export interface ModelType {
     taskModel: TaskModelType

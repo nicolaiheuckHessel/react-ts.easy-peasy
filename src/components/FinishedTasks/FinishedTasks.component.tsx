@@ -9,7 +9,9 @@ const FinishedTasks = () => {
     <>
       <h2>Already done:</h2>
       <ul>
-        {finishedTasks.map(task => <TaskComponent key={task.id as Key} task={task} />)}
+        {finishedTasks.map(task => (
+          <TaskComponent key={task.id as Key} task={task} />
+        ))}
       </ul>
     </>
   )

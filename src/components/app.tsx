@@ -1,16 +1,13 @@
-import { Computed } from "easy-peasy";
-import React, { Component } from "react";
-import { typedHooks } from "../store";
-import { TaskModelType } from "../StoreModel";
+import React from "react";
 import FinishedTasks from "./FinishedTasks/FinishedTasks.component";
 import NewTaskForm from "./NewTaskForm";
-import { Task } from "./Task/Task.types";
+import ReloadTasksButton from "./ReloadTasksButton";
 import UnFinishedTasks from "./UnFinishedTasks/UnFinishedTasks.component";
 
 const app = () => {
-  
   return (
     <>
+      <ReloadTasksButton />
       <NewTaskForm />
       <UnFinishedTasks />
       <FinishedTasks />
